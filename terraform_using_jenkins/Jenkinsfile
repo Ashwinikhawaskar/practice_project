@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+     stages {
+         stage('checkout') {
+             steps {
+                 git branch: 'main', url: 'https://github.com/Ashwinikhawaskar/practice_project.git'
+              }
+            }
+          
+          stage('Terraform init') {
+             steps {
+                 dir('terraform_using_jenkins') {
+                sh 'terraform init'
+             }
+          }
+        } 
+          
+          stage('Terraform plan') {
+             steps {
+                 dir('terraform_using_jenkins') {
+                sh 'terraform plan'
+             }
+         }
+       }     
+         
+         stage('Terraform apply') {
+             steps {
+                 dir('terraform_using_jenkins') {
+                sh 'terraform apply --auto-approve'
+             }
+         }
+       }     
+     }
+}
